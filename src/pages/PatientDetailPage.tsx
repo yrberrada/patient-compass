@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { usePatient } from "@/hooks/usePatients";
+import { UserX } from "lucide-react";
 import StatusBadge from "@/components/StatusBadge";
 import BenefitsSummary from "@/components/BenefitsSummary";
 import { formatDate, formatCurrency } from "@/lib/formatters";
@@ -39,14 +40,17 @@ const PatientDetailPage = () => {
 
   if (!patient) {
     return (
-      <div className="mx-auto max-w-5xl px-6 py-10 text-center">
-        <p className="mb-4 text-lg text-muted-foreground">Patient not found</p>
-        <button
-          onClick={() => navigate("/patients")}
-          className="text-sm font-medium text-primary underline underline-offset-4 hover:opacity-80"
-        >
-          ← Back to Patients
-        </button>
+      <div className="mx-auto max-w-5xl px-6 py-10 flex items-center justify-center">
+        <div className="rounded-lg border border-border bg-card p-10 shadow-sm text-center space-y-4">
+          <UserX className="mx-auto h-12 w-12 text-muted-foreground" />
+          <p className="text-lg font-medium text-foreground">Patient not found</p>
+          <button
+            onClick={() => navigate("/patients")}
+            className="text-sm font-medium text-primary underline underline-offset-4 hover:opacity-80"
+          >
+            ← Back to Patients
+          </button>
+        </div>
       </div>
     );
   }

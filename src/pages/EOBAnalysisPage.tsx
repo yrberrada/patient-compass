@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEOB } from "@/hooks/usePatients";
+import { FileX } from "lucide-react";
 import StatusBadge from "@/components/StatusBadge";
 import { formatDate, formatCurrency } from "@/lib/formatters";
 
@@ -40,14 +41,17 @@ const EOBAnalysisPage = () => {
 
   if (!patient || !eob) {
     return (
-      <div className="mx-auto max-w-5xl px-6 py-10 text-center">
-        <p className="mb-4 text-lg text-muted-foreground">EOB not found</p>
-        <button
-          onClick={() => navigate(patient ? `/patients/${patient.id}` : "/patients")}
-          className="text-sm font-medium text-primary underline underline-offset-4 hover:opacity-80"
-        >
-          ← Back
-        </button>
+      <div className="mx-auto max-w-5xl px-6 py-10 flex items-center justify-center">
+        <div className="rounded-lg border border-border bg-card p-10 shadow-sm text-center space-y-4">
+          <FileX className="mx-auto h-12 w-12 text-muted-foreground" />
+          <p className="text-lg font-medium text-foreground">EOB not found</p>
+          <button
+            onClick={() => navigate(patient ? `/patients/${patient.id}` : "/patients")}
+            className="text-sm font-medium text-primary underline underline-offset-4 hover:opacity-80"
+          >
+            ← Back
+          </button>
+        </div>
       </div>
     );
   }
