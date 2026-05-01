@@ -1,21 +1,24 @@
 
-## Data model fixes
+## Extract shared formatters utility
 
-### 1. `src/data/patients.ts` — Interface and data changes
+### New file: `src/lib/formatters.ts`
 
-- EOB interface: rename `patient: number` to `patientResponsibility: number`
-- Benefits interface: change `preventive`, `basic`, `major`, `ortho` from `string` to `number | null`
-- Mock data: update field name (`patient` → `patientResponsibility`), convert coverage strings to decimals (`"100%"` → `1.0`, `"80%"` → `0.8`, `"Not covered"` → `null`)
+Create with two named exports:
+- `formatDate(isoString: string): string` — appends `T00:00:00`, formats as `"Mar 10, 2026"` (en-US)
+- `formatCurrency(amount: number): string` — formats as `"$1,200.00"` (en-US, USD)
 
-### 2. `src/pages/PatientDetailPage.tsx`
+### Update `src/pages/PatientListPage.tsx`
+- Remove inline `formatDob` function (lines 6–13)
+- Add `import { formatDate } from "@/lib/formatters"`
+- Replace `formatDob(p.dob)` with `formatDate(p.dob)`
 
-- Line 107: `eob.patient` → `eob.patientResponsibility`
+### Update `src/pages/PatientDetailPage.tsx`
+- Remove inline `formatDob` and `formatCurrency` functions (lines 7–14)
+- Add `import { formatDate, formatCurrency } from "@/lib/formatters"`
+- Replace `formatDob(patient.dob)` with `formatDate(patient.dob)`
+- **Bug fix**: line 101 renders `eob.date` as raw ISO string — wrap with `formatDate(eob.date)`
 
-### 3. `src/pages/EOBAnalysisPage.tsx`
-
-- Line 34: `eob.patient` → `eob.patientResponsibility`
-- Line 74: `eob.patient` → `eob.patientResponsibility`
-
-### 4. `src/components/BenefitsSummary.tsx`
-
-- Update the coverage grid display: render `benefits[key]` as `val === null ? "Not covered" : \`${Math.round(val * 100)}%\`` to keep visual output identical.
+### Update `src/pages/EOBAnalysisPage.tsx`
+- Remove inline `formatCurrency` function (lines 6–8)
+- Add `import { formatDate, formatCurrency } from "@/lib/formatters"`
+- Replace raw `eob.date` on line 51 with `formatDate(eob.date)`
