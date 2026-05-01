@@ -1,29 +1,24 @@
 
-# Raekis Patient Dashboard — Scaffold
+# Populate data and build PatientListPage
 
-Set up the project structure with TypeScript interfaces, empty page/component files, and working React Router routes.
+## Changes
 
-## What gets built
+### 1. `src/data/patients.ts` — Add mock data
+Insert the two patients (Emma Chen, Michael Patel) with their full benefits and EOB records exactly as specified, into the existing `patients` array export.
 
-1. **Data layer** (`src/data/patients.ts`) — All TypeScript interfaces (Patient, EOB, Benefits, Analysis) and an empty mock data array.
+### 2. `src/components/StatusBadge.tsx` — Colored pill badge
+A small component accepting a `status` string prop. Returns a rounded-full pill with:
+- "EOB Available" → blue background/text
+- "Claim Denied" → red
+- "Eligibility Active" → green
+- Also handles EOB-level statuses (Processed=blue, Denied=red, Pending=yellow)
+- Fallback to muted colors for unknown statuses
 
-2. **Components** (placeholder exports):
-   - `PatientCard.tsx`
-   - `BenefitsSummary.tsx`
-   - `EOBCard.tsx`
-   - `EOBAnalysis.tsx`
-   - `StatusBadge.tsx`
-
-3. **Pages** (placeholder text, no real content):
-   - `PatientListPage.tsx` — renders "Patient List"
-   - `PatientDetailPage.tsx` — renders "Patient Detail" (reads `:id` param)
-   - `EOBAnalysisPage.tsx` — renders "EOB Analysis" (reads `:id` and `:eobId` params)
-
-4. **Router** (`App.tsx`) — React Router v6 with:
-   - `/` → redirect to `/patients`
-   - `/patients` → PatientListPage
-   - `/patients/:id` → PatientDetailPage
-   - `/patients/:id/eob/:eobId` → EOBAnalysisPage
-   - `*` → NotFound
-
-No UI content, styling, or functionality beyond the scaffold. App will compile and run with no errors.
+### 3. `src/pages/PatientListPage.tsx` — Full patient table
+- "Patients" heading
+- Clean bordered table: Name | Date of Birth | Insurance Payer | Status
+- DOB formatted as `MMM DD, YYYY` via `toLocaleDateString`
+- Status column renders `StatusBadge`
+- Rows are clickable → navigate to `/patients/:id`
+- Hover shows subtle `bg-muted/40` highlight
+- Semantic tokens used throughout (foreground, muted-foreground, border, muted)

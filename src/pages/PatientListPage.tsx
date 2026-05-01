@@ -1,5 +1,53 @@
+import { useNavigate } from "react-router-dom";
+import { patients } from "@/data/patients";
+import StatusBadge from "@/components/StatusBadge";
+
+function formatDob(dob: string): string {
+  const date = new Date(dob + "T00:00:00");
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
 const PatientListPage = () => {
-  return <div className="p-8 text-foreground">Patient List</div>;
+  const navigate = useNavigate();
+
+  return (
+    <div className="mx-auto max-w-4xl px-6 py-10">
+      <h1 className="mb-6 text-2xl font-semibold text-foreground">Patients</h1>
+
+      <div className="overflow-hidden rounded-lg border border-border">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-border bg-muted/50">
+              <th className="px-4 py-3 text-left font-medium text-muted-foreground">Name</th>
+              <th className="px-4 py-3 text-left font-medium text-muted-foreground">Date of Birth</th>
+              <th className="px-4 py-3 text-left font-medium text-muted-foreground">Insurance Payer</th>
+              <th className="px-4 py-3 text-left font-medium text-muted-foreground">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {patients.map((p) => (
+              <tr
+                key={p.id}
+                onClick={() => navigate(`/patients/${p.id}`)}
+                className="cursor-pointer border-b border-border last:border-b-0 transition-colors hover:bg-muted/40"
+              >
+                <td className="px-4 py-3 font-medium text-foreground">{p.name}</td>
+                <td className="px-4 py-3 text-muted-foreground">{formatDob(p.dob)}</td>
+                <td className="px-4 py-3 text-muted-foreground">{p.payer}</td>
+                <td className="px-4 py-3">
+                  <StatusBadge status={p.status} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 };
 
 export default PatientListPage;
