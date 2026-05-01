@@ -1,19 +1,42 @@
 import { useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { getEOBById } from "@/services/patientService";
+import { useEOB } from "@/hooks/usePatients";
 import StatusBadge from "@/components/StatusBadge";
 import { formatDate, formatCurrency } from "@/lib/formatters";
 
 const EOBAnalysisPage = () => {
   const { id, eobId } = useParams();
   const navigate = useNavigate();
-  const result = getEOBById(Number(id), eobId!);
+  const { data: result, isLoading, isError } = useEOB(Number(id), eobId!);
   const patient = result?.patient;
   const eob = result?.eob;
 
   useEffect(() => {
-    document.title = eob ? `EOB ${eob.code} | Raekis` : "EOB Not Found | Raekis";
+    document.title = eob ? `EOB ${eob.code} | Raekis` : "EOB | Raekis";
   }, [eob]);
+
+  if (isLoading) {
+    return (
+      <div className="mx-auto max-w-5xl px-6 py-10 space-y-4">
+        <div className="h-8 w-48 animate-pulse rounded bg-muted" />
+        <div className="h-64 animate-pulse rounded-lg bg-muted" />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="mx-auto max-w-5xl px-6 py-10 text-center">
+        <p className="mb-4 text-lg text-muted-foreground">Failed to load EOB</p>
+        <button
+          onClick={() => navigate("/patients")}
+          className="text-sm font-medium text-primary underline underline-offset-4 hover:opacity-80"
+        >
+          ← Back to Patients
+        </button>
+      </div>
+    );
+  }
 
   if (!patient || !eob) {
     return (

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getPatientById } from "@/services/patientService";
+import { usePatient } from "@/hooks/usePatients";
 import StatusBadge from "@/components/StatusBadge";
 import BenefitsSummary from "@/components/BenefitsSummary";
 import { formatDate, formatCurrency } from "@/lib/formatters";
@@ -8,11 +8,34 @@ import { formatDate, formatCurrency } from "@/lib/formatters";
 const PatientDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const patient = getPatientById(Number(id));
+  const { data: patient, isLoading, isError } = usePatient(Number(id));
 
   useEffect(() => {
-    document.title = patient ? `${patient.name} | Raekis` : "Patient Not Found | Raekis";
+    document.title = patient ? `${patient.name} | Raekis` : "Patient | Raekis";
   }, [patient]);
+
+  if (isLoading) {
+    return (
+      <div className="mx-auto max-w-5xl px-6 py-10 space-y-4">
+        <div className="h-8 w-48 animate-pulse rounded bg-muted" />
+        <div className="h-64 animate-pulse rounded-lg bg-muted" />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="mx-auto max-w-5xl px-6 py-10 text-center">
+        <p className="mb-4 text-lg text-muted-foreground">Failed to load patient</p>
+        <button
+          onClick={() => navigate("/patients")}
+          className="text-sm font-medium text-primary underline underline-offset-4 hover:opacity-80"
+        >
+          ← Back to Patients
+        </button>
+      </div>
+    );
+  }
 
   if (!patient) {
     return (

@@ -1,16 +1,33 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllPatients } from "@/services/patientService";
+import { usePatients } from "@/hooks/usePatients";
 import StatusBadge from "@/components/StatusBadge";
 import { formatDate } from "@/lib/formatters";
 
 const PatientListPage = () => {
   const navigate = useNavigate();
-  const patients = getAllPatients();
+  const { data: patients, isLoading, isError } = usePatients();
 
   useEffect(() => {
     document.title = "Patients | Raekis";
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="mx-auto max-w-5xl px-6 py-10 space-y-4">
+        <div className="h-8 w-48 animate-pulse rounded bg-muted" />
+        <div className="h-64 animate-pulse rounded-lg bg-muted" />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="mx-auto max-w-5xl px-6 py-10 text-center">
+        <p className="mb-4 text-lg text-muted-foreground">Failed to load patients</p>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-10">
@@ -27,7 +44,7 @@ const PatientListPage = () => {
             </tr>
           </thead>
           <tbody>
-            {patients.map((p) => (
+            {(patients ?? []).map((p) => (
               <tr
                 key={p.id}
                 onClick={() => navigate(`/patients/${p.id}`)}
