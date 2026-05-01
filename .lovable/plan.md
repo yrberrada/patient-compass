@@ -1,31 +1,32 @@
 
-## Trim dependency bloat
+## Add real tests
 
-### Dependencies to remove
+### Delete `src/test/example.test.ts`
 
-The following are not imported anywhere in the app's actual code paths:
+### Create `src/test/formatters.test.ts`
 
-**Non-Radix:**
-- `@hookform/resolvers` (only in unused ui/form.tsx)
-- `cmdk` (only in unused ui/command.tsx)
-- `date-fns` (only in unused ui/calendar.tsx)
-- `embla-carousel-react` (only in unused ui/carousel.tsx)
-- `input-otp` (only in unused ui/input-otp.tsx)
-- `next-themes` (only in unused ui/chart.tsx)
-- `react-day-picker` (only in unused ui/calendar.tsx)
-- `react-hook-form` (only in unused ui/form.tsx)
-- `react-resizable-panels` (only in unused ui/resizable.tsx)
-- `recharts` (only in unused ui/chart.tsx)
-- `vaul` (only in unused ui/drawer.tsx)
-- `zod` (only in unused ui/form.tsx)
+Tests for `formatDate`:
+- Returns correct locale string (`"2026-03-10"` → `"Mar 10, 2026"`)
+- Does not shift date due to timezone (`"2026-01-01"` → `"Jan 1, 2026"`)
+- Handles end-of-month dates (`"2026-12-31"` → `"Dec 31, 2026"`)
 
-**Radix packages** — remove all except `react-toast`, `react-tooltip`, and `react-slot`:
-- `react-accordion`, `react-alert-dialog`, `react-aspect-ratio`, `react-avatar`, `react-checkbox`, `react-collapsible`, `react-context-menu`, `react-dialog`, `react-dropdown-menu`, `react-hover-card`, `react-label`, `react-menubar`, `react-navigation-menu`, `react-popover`, `react-progress`, `react-radio-group`, `react-scroll-area`, `react-select`, `react-separator`, `react-slider`, `react-switch`, `react-tabs`, `react-toggle`, `react-toggle-group`
+Tests for `formatCurrency`:
+- Formats with two decimal places (`1200` → `"$1,200.00"`)
+- Formats zero (`0` → `"$0.00"`)
+- Formats cents (`425.5` → `"$425.50"`)
 
-### Dependencies to keep
-- All explicitly listed (react, react-dom, react-router-dom, @tanstack/react-query, tailwind-merge, clsx, class-variance-authority, lucide-react, tailwindcss-animate, sonner)
-- `@radix-ui/react-toast`, `@radix-ui/react-tooltip`, `@radix-ui/react-slot`
-- All devDependencies unchanged
+### Create `src/test/patientService.test.ts`
 
-### After editing package.json
-Run `bun install` to update the lockfile.
+Tests for `getAllPatients`:
+- Returns array with length > 0
+
+Tests for `getPatientById`:
+- Returns correct patient for valid id (id 1 → "Emma Chen")
+- Returns undefined for unknown id (id 999)
+
+Tests for `getEOBById`:
+- Returns correct result for valid ids (patient 1, eob "e1" → code "D2740")
+- Returns undefined for unknown eobId
+- Returns undefined for unknown patientId
+
+All tests use real mock data, no mocking needed.
