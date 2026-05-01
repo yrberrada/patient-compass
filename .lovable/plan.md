@@ -1,15 +1,9 @@
 
-## Update README and package name
+## Add build check scripts
 
-### `package.json`
-- Change `"name"` from `"vite_react_shadcn_ts"` to `"patient-compass"`
+### `package.json` — add two scripts
 
-### `README.md`
-Full rewrite with:
-- Project name and one-sentence description
-- Tech stack list (React, TypeScript, Vite, React Query, React Router, Tailwind CSS)
-- Prerequisites (Node 18+)
-- Local setup instructions (clone, npm install, npm run dev)
-- How to run tests (npm test)
-- Architecture overview describing data flow: patientService → React Query hooks → page components, plus shared formatters
-- "What I'd improve" section with 5 concrete items (HIPAA API, search/filter, trend analysis, E2E tests, dark mode)
+- `"typecheck": "tsc --noEmit"` — runs the TypeScript compiler without emitting, catching missing/broken imports at the type level
+- `"check": "npm run typecheck && npm run lint && npm run test"` — single command for CI that runs type checking, linting, and tests in sequence
+
+These catch issues like the `next-themes` missing dependency before they reach the build step.
