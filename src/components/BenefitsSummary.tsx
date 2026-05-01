@@ -46,12 +46,17 @@ const BenefitsSummary = ({ benefits }: BenefitsSummaryProps) => {
         </div>
 
         <div className="grid grid-cols-2 gap-3 pt-2">
-          {(["preventive", "basic", "major", "ortho"] as const).map((key) => (
-            <div key={key} className="rounded-md bg-muted/50 px-3 py-2">
-              <span className="block text-xs text-muted-foreground capitalize">{key}</span>
-              <span className="font-medium text-foreground">{benefits[key]}</span>
-            </div>
-          ))}
+          {(["preventive", "basic", "major", "ortho"] as const).map((key) => {
+            const val = benefits[key];
+            return (
+              <div key={key} className="rounded-md bg-muted/50 px-3 py-2">
+                <span className="block text-xs text-muted-foreground capitalize">{key}</span>
+                <span className="font-medium text-foreground">
+                  {val === null ? "Not covered" : `${Math.round(val * 100)}%`}
+                </span>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
