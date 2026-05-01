@@ -31,7 +31,7 @@ const EOBAnalysisPage = () => {
     );
   }
 
-  const highResponsibility = eob.patient / eob.billed > 0.4;
+  const highResponsibility = eob.patientResponsibility / eob.billed > 0.4;
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-10 space-y-8">
@@ -71,7 +71,7 @@ const EOBAnalysisPage = () => {
         <div className="border-t border-border my-2" />
         <div className="flex justify-between items-center pt-1">
           <span className="text-foreground font-semibold">Patient Responsibility</span>
-          <span className="text-lg font-bold text-foreground">{formatCurrency(eob.patient)}</span>
+          <span className="text-lg font-bold text-foreground">{formatCurrency(eob.patientResponsibility)}</span>
         </div>
       </div>
 

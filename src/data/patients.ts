@@ -12,7 +12,7 @@ export interface EOB {
   billed: number;
   allowed: number;
   paid: number;
-  patient: number;
+  patientResponsibility: number;
   status: "Processed" | "Denied" | "Pending";
   analysis: Analysis;
 }
@@ -22,10 +22,10 @@ export interface Benefits {
   remainingMax: number;
   deductible: number;
   deductibleRemaining: number;
-  preventive: string;
-  basic: string;
-  major: string;
-  ortho: string;
+  preventive: number | null;
+  basic: number | null;
+  major: number | null;
+  ortho: number | null;
 }
 
 export interface Patient {
@@ -50,10 +50,10 @@ export const patients: Patient[] = [
       remainingMax: 850,
       deductible: 50,
       deductibleRemaining: 0,
-      preventive: "100%",
-      basic: "80%",
-      major: "50%",
-      ortho: "Not covered",
+      preventive: 1.0,
+      basic: 0.8,
+      major: 0.5,
+      ortho: null,
     },
     eobs: [
       {
@@ -64,7 +64,7 @@ export const patients: Patient[] = [
         billed: 1200,
         allowed: 850,
         paid: 425,
-        patient: 425,
+        patientResponsibility: 425,
         status: "Processed",
         analysis: {
           reason: "Major service covered at 50%",
@@ -85,10 +85,10 @@ export const patients: Patient[] = [
       remainingMax: 2000,
       deductible: 100,
       deductibleRemaining: 100,
-      preventive: "100%",
-      basic: "70%",
-      major: "50%",
-      ortho: "50%",
+      preventive: 1.0,
+      basic: 0.7,
+      major: 0.5,
+      ortho: 0.5,
     },
     eobs: [
       {
@@ -99,7 +99,7 @@ export const patients: Patient[] = [
         billed: 800,
         allowed: 0,
         paid: 0,
-        patient: 800,
+        patientResponsibility: 800,
         status: "Denied",
         analysis: {
           reason: "Missing periodontal charting",

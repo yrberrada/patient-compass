@@ -104,7 +104,7 @@ const PatientDetailPage = () => {
                     <td className="px-4 py-3 text-right text-foreground">{formatCurrency(eob.billed)}</td>
                     <td className="px-4 py-3 text-right text-foreground">{formatCurrency(eob.allowed)}</td>
                     <td className="px-4 py-3 text-right text-foreground">{formatCurrency(eob.paid)}</td>
-                    <td className="px-4 py-3 text-right text-foreground">{formatCurrency(eob.patient)}</td>
+                    <td className="px-4 py-3 text-right text-foreground">{formatCurrency(eob.patientResponsibility)}</td>
                     <td className="px-4 py-3"><StatusBadge status={eob.status} /></td>
                   </tr>
                 ))}
