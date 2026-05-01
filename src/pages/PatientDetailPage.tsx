@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { patients } from "@/data/patients";
+import { getPatientById } from "@/services/patientService";
 import StatusBadge from "@/components/StatusBadge";
 import BenefitsSummary from "@/components/BenefitsSummary";
 import { formatDate, formatCurrency } from "@/lib/formatters";
@@ -8,7 +8,7 @@ import { formatDate, formatCurrency } from "@/lib/formatters";
 const PatientDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const patient = patients.find((p) => p.id === Number(id));
+  const patient = getPatientById(Number(id));
 
   useEffect(() => {
     document.title = patient ? `${patient.name} | Raekis` : "Patient Not Found | Raekis";
