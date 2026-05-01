@@ -1,14 +1,15 @@
 import { useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { patients } from "@/data/patients";
+import { getEOBById } from "@/services/patientService";
 import StatusBadge from "@/components/StatusBadge";
 import { formatDate, formatCurrency } from "@/lib/formatters";
 
 const EOBAnalysisPage = () => {
   const { id, eobId } = useParams();
   const navigate = useNavigate();
-  const patient = patients.find((p) => p.id === Number(id));
-  const eob = patient?.eobs.find((e) => e.id === eobId);
+  const result = getEOBById(Number(id), eobId!);
+  const patient = result?.patient;
+  const eob = result?.eob;
 
   useEffect(() => {
     document.title = eob ? `EOB ${eob.code} | Raekis` : "EOB Not Found | Raekis";

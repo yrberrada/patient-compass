@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { patients } from "@/data/patients";
+import { getAllPatients } from "@/services/patientService";
 import StatusBadge from "@/components/StatusBadge";
 import { formatDate } from "@/lib/formatters";
 
 const PatientListPage = () => {
   const navigate = useNavigate();
+  const patients = getAllPatients();
 
   useEffect(() => {
     document.title = "Patients | Raekis";
