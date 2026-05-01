@@ -1,14 +1,31 @@
 
-## Fix edge cases and empty states
+## Trim dependency bloat
 
-### 1. `src/pages/PatientListPage.tsx`
-- After the loading/error guards, add an empty-array check: if `patients` is empty, render a centered card with "No patients on file." instead of the table.
+### Dependencies to remove
 
-### 2. `src/pages/PatientDetailPage.tsx`
-- Replace the plain not-found block (lines 40–51) with a centered card containing the `UserX` icon from lucide-react, "Patient not found" text, and a styled back button.
+The following are not imported anywhere in the app's actual code paths:
 
-### 3. `src/pages/EOBAnalysisPage.tsx`
-- Replace the plain not-found block (lines 42–52) with a centered card containing the `FileX` icon from lucide-react, "EOB not found" text, and a styled back button (preserving the existing conditional back link logic).
+**Non-Radix:**
+- `@hookform/resolvers` (only in unused ui/form.tsx)
+- `cmdk` (only in unused ui/command.tsx)
+- `date-fns` (only in unused ui/calendar.tsx)
+- `embla-carousel-react` (only in unused ui/carousel.tsx)
+- `input-otp` (only in unused ui/input-otp.tsx)
+- `next-themes` (only in unused ui/chart.tsx)
+- `react-day-picker` (only in unused ui/calendar.tsx)
+- `react-hook-form` (only in unused ui/form.tsx)
+- `react-resizable-panels` (only in unused ui/resizable.tsx)
+- `recharts` (only in unused ui/chart.tsx)
+- `vaul` (only in unused ui/drawer.tsx)
+- `zod` (only in unused ui/form.tsx)
 
-### 4. EOB date formatting
-Already confirmed: `formatDate(eob.date)` is applied on PatientDetailPage line 93. No fix needed.
+**Radix packages** — remove all except `react-toast`, `react-tooltip`, and `react-slot`:
+- `react-accordion`, `react-alert-dialog`, `react-aspect-ratio`, `react-avatar`, `react-checkbox`, `react-collapsible`, `react-context-menu`, `react-dialog`, `react-dropdown-menu`, `react-hover-card`, `react-label`, `react-menubar`, `react-navigation-menu`, `react-popover`, `react-progress`, `react-radio-group`, `react-scroll-area`, `react-select`, `react-separator`, `react-slider`, `react-switch`, `react-tabs`, `react-toggle`, `react-toggle-group`
+
+### Dependencies to keep
+- All explicitly listed (react, react-dom, react-router-dom, @tanstack/react-query, tailwind-merge, clsx, class-variance-authority, lucide-react, tailwindcss-animate, sonner)
+- `@radix-ui/react-toast`, `@radix-ui/react-tooltip`, `@radix-ui/react-slot`
+- All devDependencies unchanged
+
+### After editing package.json
+Run `bun install` to update the lockfile.
