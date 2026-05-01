@@ -1,24 +1,23 @@
 
-# Populate data and build PatientListPage
+# Build PatientDetailPage
 
 ## Changes
 
-### 1. `src/data/patients.ts` — Add mock data
-Insert the two patients (Emma Chen, Michael Patel) with their full benefits and EOB records exactly as specified, into the existing `patients` array export.
+### 1. `src/components/BenefitsSummary.tsx`
+Accept `benefits: Benefits` prop. Display:
+- Annual Maximum and Remaining Maximum with a progress bar (green >50%, yellow 20–50%, red <20%)
+- Deductible and Deductible Remaining
+- 2×2 coverage grid (Preventive, Basic, Major, Ortho) in rounded muted boxes
 
-### 2. `src/components/StatusBadge.tsx` — Colored pill badge
-A small component accepting a `status` string prop. Returns a rounded-full pill with:
-- "EOB Available" → blue background/text
-- "Claim Denied" → red
-- "Eligibility Active" → green
-- Also handles EOB-level statuses (Processed=blue, Denied=red, Pending=yellow)
-- Fallback to muted colors for unknown statuses
+### 2. `src/pages/PatientDetailPage.tsx`
+Find patient by matching `params.id` to the patients array. If not found, show "Patient not found" with a back button.
 
-### 3. `src/pages/PatientListPage.tsx` — Full patient table
-- "Patients" heading
-- Clean bordered table: Name | Date of Birth | Insurance Payer | Status
-- DOB formatted as `MMM DD, YYYY` via `toLocaleDateString`
-- Status column renders `StatusBadge`
-- Rows are clickable → navigate to `/patients/:id`
-- Hover shows subtle `bg-muted/40` highlight
-- Semantic tokens used throughout (foreground, muted-foreground, border, muted)
+**Section 1** — Two cards side by side (`grid md:grid-cols-2`):
+- Left: Patient Info card — name (large), formatted DOB, payer, StatusBadge, back button to `/patients`
+- Right: BenefitsSummary card
+
+**Section 2** — EOB table:
+- Title: "Explanations of Benefits (EOBs)"
+- Columns: Date, Procedure Code, Procedure Name, Billed, Allowed, Insurance Paid, Patient Owes, Status
+- Amounts formatted as `$X,XXX.00`, status uses StatusBadge
+- Rows clickable → `/patients/:id/eob/:eobId` with hover highlight
