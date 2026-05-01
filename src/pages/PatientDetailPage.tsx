@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { patients } from "@/data/patients";
 import StatusBadge from "@/components/StatusBadge";
@@ -17,9 +18,13 @@ const PatientDetailPage = () => {
   const navigate = useNavigate();
   const patient = patients.find((p) => p.id === Number(id));
 
+  useEffect(() => {
+    document.title = patient ? `${patient.name} | Raekis` : "Patient Not Found | Raekis";
+  }, [patient]);
+
   if (!patient) {
     return (
-      <div className="mx-auto max-w-4xl px-6 py-10 text-center">
+      <div className="mx-auto max-w-5xl px-6 py-10 text-center">
         <p className="mb-4 text-lg text-muted-foreground">Patient not found</p>
         <button
           onClick={() => navigate("/patients")}
@@ -36,7 +41,7 @@ const PatientDetailPage = () => {
       {/* Section 1 — Patient Info + Benefits */}
       <div className="grid gap-6 md:grid-cols-2">
         {/* Patient Info */}
-        <div className="rounded-lg border border-border bg-card p-6">
+        <div className="rounded-lg border border-border bg-card p-6 shadow-sm">
           <button
             onClick={() => navigate("/patients")}
             className="mb-4 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -67,40 +72,46 @@ const PatientDetailPage = () => {
       {/* Section 2 — EOBs */}
       <div>
         <h2 className="mb-4 text-lg font-semibold text-foreground">Explanations of Benefits (EOBs)</h2>
-        <div className="overflow-x-auto rounded-lg border border-border">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-border bg-muted/50">
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground">Date</th>
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground">Procedure Code</th>
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground">Procedure Name</th>
-                <th className="px-4 py-3 text-right font-medium text-muted-foreground">Billed</th>
-                <th className="px-4 py-3 text-right font-medium text-muted-foreground">Allowed</th>
-                <th className="px-4 py-3 text-right font-medium text-muted-foreground">Insurance Paid</th>
-                <th className="px-4 py-3 text-right font-medium text-muted-foreground">Patient Owes</th>
-                <th className="px-4 py-3 text-left font-medium text-muted-foreground">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {patient.eobs.map((eob) => (
-                <tr
-                  key={eob.id}
-                  onClick={() => navigate(`/patients/${patient.id}/eob/${eob.id}`)}
-                  className="cursor-pointer border-b border-border last:border-b-0 transition-colors hover:bg-muted/40"
-                >
-                  <td className="px-4 py-3 text-foreground">{eob.date}</td>
-                  <td className="px-4 py-3 text-foreground">{eob.code}</td>
-                  <td className="px-4 py-3 text-foreground">{eob.procedure}</td>
-                  <td className="px-4 py-3 text-right text-foreground">{formatCurrency(eob.billed)}</td>
-                  <td className="px-4 py-3 text-right text-foreground">{formatCurrency(eob.allowed)}</td>
-                  <td className="px-4 py-3 text-right text-foreground">{formatCurrency(eob.paid)}</td>
-                  <td className="px-4 py-3 text-right text-foreground">{formatCurrency(eob.patient)}</td>
-                  <td className="px-4 py-3"><StatusBadge status={eob.status} /></td>
+        {patient.eobs.length === 0 ? (
+          <div className="rounded-lg border border-border bg-card p-8 text-center shadow-sm">
+            <p className="text-muted-foreground">No EOBs on file</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto rounded-lg border border-border bg-card shadow-sm">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-border bg-muted/50">
+                  <th className="px-4 py-3 text-left font-medium text-muted-foreground">Date</th>
+                  <th className="px-4 py-3 text-left font-medium text-muted-foreground">Procedure Code</th>
+                  <th className="px-4 py-3 text-left font-medium text-muted-foreground">Procedure Name</th>
+                  <th className="px-4 py-3 text-right font-medium text-muted-foreground">Billed</th>
+                  <th className="px-4 py-3 text-right font-medium text-muted-foreground">Allowed</th>
+                  <th className="px-4 py-3 text-right font-medium text-muted-foreground">Insurance Paid</th>
+                  <th className="px-4 py-3 text-right font-medium text-muted-foreground">Patient Owes</th>
+                  <th className="px-4 py-3 text-left font-medium text-muted-foreground">Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {patient.eobs.map((eob) => (
+                  <tr
+                    key={eob.id}
+                    onClick={() => navigate(`/patients/${patient.id}/eob/${eob.id}`)}
+                    className="cursor-pointer border-b border-border last:border-b-0 transition-colors hover:bg-muted/40"
+                  >
+                    <td className="px-4 py-3 text-foreground">{eob.date}</td>
+                    <td className="px-4 py-3 text-foreground">{eob.code}</td>
+                    <td className="px-4 py-3 text-foreground">{eob.procedure}</td>
+                    <td className="px-4 py-3 text-right text-foreground">{formatCurrency(eob.billed)}</td>
+                    <td className="px-4 py-3 text-right text-foreground">{formatCurrency(eob.allowed)}</td>
+                    <td className="px-4 py-3 text-right text-foreground">{formatCurrency(eob.paid)}</td>
+                    <td className="px-4 py-3 text-right text-foreground">{formatCurrency(eob.patient)}</td>
+                    <td className="px-4 py-3"><StatusBadge status={eob.status} /></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );

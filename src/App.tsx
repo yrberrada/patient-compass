@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import Navbar from "./components/Navbar";
 import PatientListPage from "./pages/PatientListPage";
 import PatientDetailPage from "./pages/PatientDetailPage";
 import EOBAnalysisPage from "./pages/EOBAnalysisPage";
@@ -16,6 +17,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <Navbar />
         <Routes>
           <Route path="/" element={<Navigate to="/patients" replace />} />
           <Route path="/patients" element={<PatientListPage />} />
