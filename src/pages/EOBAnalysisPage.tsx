@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { patients } from "@/data/patients";
 import StatusBadge from "@/components/StatusBadge";
@@ -12,9 +13,13 @@ const EOBAnalysisPage = () => {
   const patient = patients.find((p) => p.id === Number(id));
   const eob = patient?.eobs.find((e) => e.id === eobId);
 
+  useEffect(() => {
+    document.title = eob ? `EOB ${eob.code} | Raekis` : "EOB Not Found | Raekis";
+  }, [eob]);
+
   if (!patient || !eob) {
     return (
-      <div className="mx-auto max-w-3xl px-6 py-10 text-center">
+      <div className="mx-auto max-w-5xl px-6 py-10 text-center">
         <p className="mb-4 text-lg text-muted-foreground">EOB not found</p>
         <button
           onClick={() => navigate(patient ? `/patients/${patient.id}` : "/patients")}
@@ -29,7 +34,7 @@ const EOBAnalysisPage = () => {
   const highResponsibility = eob.patient / eob.billed > 0.4;
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-10 space-y-8">
+    <div className="mx-auto max-w-5xl px-6 py-10 space-y-8">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link to="/patients" className="hover:text-foreground transition-colors">Patients</Link>
@@ -49,7 +54,7 @@ const EOBAnalysisPage = () => {
       </div>
 
       {/* Section 2 — Financial Breakdown */}
-      <div className="rounded-lg border border-border bg-card p-6 space-y-3">
+      <div className="rounded-lg border border-border bg-card p-6 shadow-sm space-y-3">
         <h2 className="mb-4 text-lg font-semibold text-foreground">Financial Breakdown</h2>
         <div className="flex justify-between text-sm">
           <span className="text-muted-foreground">Billed Amount</span>
@@ -77,7 +82,7 @@ const EOBAnalysisPage = () => {
       )}
 
       {/* Section 3 — Claim Analysis */}
-      <div className="rounded-lg border border-border bg-card p-6 space-y-4">
+      <div className="rounded-lg border border-border bg-card p-6 shadow-sm space-y-4">
         <h2 className="mb-2 text-lg font-semibold text-foreground">Claim Analysis</h2>
         <div className="flex items-start gap-3 text-sm">
           <span className="text-lg">📋</span>

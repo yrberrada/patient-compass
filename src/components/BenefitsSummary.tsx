@@ -13,7 +13,7 @@ const BenefitsSummary = ({ benefits }: BenefitsSummaryProps) => {
     n.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 0 });
 
   return (
-    <div className="rounded-lg border border-border bg-card p-6">
+    <div className="rounded-lg border border-border bg-card p-6 shadow-sm">
       <h2 className="mb-4 text-lg font-semibold text-foreground">Benefits Summary</h2>
 
       <div className="space-y-4 text-sm">

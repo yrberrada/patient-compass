@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { patients } from "@/data/patients";
 import StatusBadge from "@/components/StatusBadge";
@@ -14,11 +15,15 @@ function formatDob(dob: string): string {
 const PatientListPage = () => {
   const navigate = useNavigate();
 
+  useEffect(() => {
+    document.title = "Patients | Raekis";
+  }, []);
+
   return (
-    <div className="mx-auto max-w-4xl px-6 py-10">
+    <div className="mx-auto max-w-5xl px-6 py-10">
       <h1 className="mb-6 text-2xl font-semibold text-foreground">Patients</h1>
 
-      <div className="overflow-hidden rounded-lg border border-border">
+      <div className="overflow-x-auto rounded-lg border border-border bg-card shadow-sm">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border bg-muted/50">
