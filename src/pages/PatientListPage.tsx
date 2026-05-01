@@ -2,15 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { patients } from "@/data/patients";
 import StatusBadge from "@/components/StatusBadge";
-
-function formatDob(dob: string): string {
-  const date = new Date(dob + "T00:00:00");
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-}
+import { formatDate } from "@/lib/formatters";
 
 const PatientListPage = () => {
   const navigate = useNavigate();
@@ -41,7 +33,7 @@ const PatientListPage = () => {
                 className="cursor-pointer border-b border-border last:border-b-0 transition-colors hover:bg-muted/40"
               >
                 <td className="px-4 py-3 font-medium text-foreground">{p.name}</td>
-                <td className="px-4 py-3 text-muted-foreground">{formatDob(p.dob)}</td>
+                <td className="px-4 py-3 text-muted-foreground">{formatDate(p.dob)}</td>
                 <td className="px-4 py-3 text-muted-foreground">{p.payer}</td>
                 <td className="px-4 py-3">
                   <StatusBadge status={p.status} />
