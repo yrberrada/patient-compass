@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEOB } from "@/hooks/usePatients";
-import { FileX } from "lucide-react";
+import { FileX, ClipboardList, AlertTriangle, CheckCircle2 } from "lucide-react";
 import StatusBadge from "@/components/StatusBadge";
 import { formatDate, formatCurrency } from "@/lib/formatters";
 
@@ -110,21 +110,21 @@ const EOBAnalysisPage = () => {
       <div className="rounded-lg border border-border bg-card p-6 shadow-sm space-y-4">
         <h2 className="mb-2 text-lg font-semibold text-foreground">Claim Analysis</h2>
         <div className="flex items-start gap-3 text-sm">
-          <span className="text-lg">📋</span>
+          <ClipboardList className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
           <div>
             <span className="block text-muted-foreground">Reason for Payment/Adjustment</span>
             <span className="text-foreground">{eob.analysis.reason}</span>
           </div>
         </div>
         <div className="flex items-start gap-3 text-sm">
-          <span className="text-lg">⚠️</span>
+          <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-yellow-600" />
           <div>
             <span className="block text-muted-foreground">Potential Issue</span>
             <span className="text-foreground">{eob.analysis.issue}</span>
           </div>
         </div>
         <div className="flex items-start gap-3 text-sm">
-          <span className="text-lg">✅</span>
+          <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-green-600" />
           <div>
             <span className="block text-muted-foreground">Suggested Next Step</span>
             <span className="text-foreground">{eob.analysis.suggestion}</span>

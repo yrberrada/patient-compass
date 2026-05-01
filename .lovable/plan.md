@@ -1,9 +1,12 @@
 
-## Add build check scripts
+## Replace emoji icons with Lucide icons in Claim Analysis
 
-### `package.json` — add two scripts
+### `src/pages/EOBAnalysisPage.tsx`
 
-- `"typecheck": "tsc --noEmit"` — runs the TypeScript compiler without emitting, catching missing/broken imports at the type level
-- `"check": "npm run typecheck && npm run lint && npm run test"` — single command for CI that runs type checking, linting, and tests in sequence
+- Add `ClipboardList`, `AlertTriangle`, `CheckCircle2` to the existing lucide-react import
+- Replace the three emoji spans in the Claim Analysis section:
+  - `📋` → `<ClipboardList className="mt-0.5 h-5 w-5 shrink-0 text-primary" />`
+  - `⚠️` → `<AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-yellow-600" />`
+  - `✅` → `<CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-green-600" />`
 
-These catch issues like the `next-themes` missing dependency before they reach the build step.
+Clean SVG icons that match the app's professional styling.
