@@ -1,12 +1,14 @@
 
-## Replace emoji icons with Lucide icons in Claim Analysis
+## Changes
 
-### `src/pages/EOBAnalysisPage.tsx`
+### 1. README.md — Replace Local Setup and add Troubleshooting
 
-- Add `ClipboardList`, `AlertTriangle`, `CheckCircle2` to the existing lucide-react import
-- Replace the three emoji spans in the Claim Analysis section:
-  - `📋` → `<ClipboardList className="mt-0.5 h-5 w-5 shrink-0 text-primary" />`
-  - `⚠️` → `<AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-yellow-600" />`
-  - `✅` → `<CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-green-600" />`
+- Replace lines 13–26 (Prerequisites + Local Setup) with a combined, beginner-friendly Local Setup section that includes Node version guidance and a download link.
+- Add a new Troubleshooting section after Local Setup covering: npm audit warnings, Vite deprecation notices, port differences, and Node version issues.
 
-Clean SVG icons that match the app's professional styling.
+### 2. package.json — Pin dependency versions
+
+- `vite`: change `"^5.4.19"` to `"5.4.19"` (line 52)
+- `jsdom`: change `"^20.0.3"` to `"20.0.3"` (line 46)
+
+No other files or versions are modified.

@@ -10,11 +10,15 @@ A patient benefits and EOB (Explanation of Benefits) viewer built for dental pra
 - **React Router** — client-side routing
 - **Tailwind CSS** — utility-first styling
 
-## Prerequisites
-
-- Node.js 18+
-
 ## Local Setup
+
+### Prerequisites
+- Node.js 18 or 20 (do **NOT** use Node 22+ — it may cause compatibility issues with this project's dependencies)
+- npm (comes with Node.js)
+
+Download Node.js from: [https://nodejs.org](https://nodejs.org) — choose the **"LTS"** version.
+
+### Steps
 
 ```bash
 git clone <repo-url>
@@ -23,7 +27,28 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173)
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+## Troubleshooting
+
+**npm install shows vulnerability warnings**
+This is expected. The warnings come from testing-only dependencies (jsdom) and the dev server (vite/esbuild). They do not affect the running app or any production build. Do not run `npm audit fix --force` — it will upgrade Vite to a version incompatible with the current React plugin and break the dev server.
+
+**npm run dev shows warnings about "jsx" or "optimizeDeps.rollupOptions"**
+These are deprecation notices from Vite internals and do not affect functionality. The app will still run correctly. You can ignore them.
+
+**The app opens on port 8080 instead of 5173**
+This can happen if Vite was upgraded. Either port works — use whatever URL is shown in the terminal after `npm run dev`.
+
+**npm run dev fails entirely**
+First check your Node version:
+```bash
+node --version
+```
+If it shows v22 or higher, install Node 20 LTS from [https://nodejs.org](https://nodejs.org) and try again. If you have multiple Node versions installed, use nvm to switch:
+```bash
+nvm use 20
+```
 
 ## Running Tests
 
