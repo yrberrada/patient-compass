@@ -3,15 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { patients } from "@/data/patients";
 import StatusBadge from "@/components/StatusBadge";
 import BenefitsSummary from "@/components/BenefitsSummary";
-
-function formatDob(dob: string): string {
-  const date = new Date(dob + "T00:00:00");
-  return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-}
-
-function formatCurrency(n: number): string {
-  return n.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 });
-}
+import { formatDate, formatCurrency } from "@/lib/formatters";
 
 const PatientDetailPage = () => {
   const { id } = useParams();
@@ -52,7 +44,7 @@ const PatientDetailPage = () => {
           <dl className="mt-4 space-y-2 text-sm">
             <div className="flex justify-between">
               <dt className="text-muted-foreground">Date of Birth</dt>
-              <dd className="text-foreground">{formatDob(patient.dob)}</dd>
+              <dd className="text-foreground">{formatDate(patient.dob)}</dd>
             </div>
             <div className="flex justify-between">
               <dt className="text-muted-foreground">Insurance Payer</dt>
@@ -98,7 +90,7 @@ const PatientDetailPage = () => {
                     onClick={() => navigate(`/patients/${patient.id}/eob/${eob.id}`)}
                     className="cursor-pointer border-b border-border last:border-b-0 transition-colors hover:bg-muted/40"
                   >
-                    <td className="px-4 py-3 text-foreground">{eob.date}</td>
+                    <td className="px-4 py-3 text-foreground">{formatDate(eob.date)}</td>
                     <td className="px-4 py-3 text-foreground">{eob.code}</td>
                     <td className="px-4 py-3 text-foreground">{eob.procedure}</td>
                     <td className="px-4 py-3 text-right text-foreground">{formatCurrency(eob.billed)}</td>

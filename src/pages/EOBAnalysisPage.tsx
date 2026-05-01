@@ -2,10 +2,7 @@ import { useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { patients } from "@/data/patients";
 import StatusBadge from "@/components/StatusBadge";
-
-function formatCurrency(n: number): string {
-  return n.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 });
-}
+import { formatDate, formatCurrency } from "@/lib/formatters";
 
 const EOBAnalysisPage = () => {
   const { id, eobId } = useParams();
@@ -48,7 +45,7 @@ const EOBAnalysisPage = () => {
       <div>
         <h1 className="text-2xl font-semibold text-foreground">{eob.code} — {eob.procedure}</h1>
         <div className="mt-2 flex items-center gap-4 text-sm text-muted-foreground">
-          <span>Date of Service: {eob.date}</span>
+          <span>Date of Service: {formatDate(eob.date)}</span>
           <StatusBadge status={eob.status} />
         </div>
       </div>
