@@ -18,9 +18,8 @@ built for dental practices.
 - npm (comes with Node.js)
 
 ## Local Setup
-
 ```bash
-git clone <repo-url>
+git clone https://github.com/yrberrada/patient-compass
 cd patient-compass
 npm install
 npm run dev
